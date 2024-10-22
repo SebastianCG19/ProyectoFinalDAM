@@ -10,6 +10,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         //INGRESAR CODE POR DEFECTO
+
+        //Hola sebaaas
         
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
