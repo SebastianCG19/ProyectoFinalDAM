@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,12 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-<<<<<<< HEAD
             android:padding="24dp">
-=======
-            android:padding="24dp"
-            android:background="@drawable/custom_edittext">
->>>>>>> d87bacc009cd604e0f5e30525ca905664f54c5af
 
             <TextView
                 android:layout_width="match_parent"
@@ -42,7 +38,6 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-<<<<<<< HEAD
                 android:id="@+id/etUser"
                 android:layout_marginTop="40dp"
                 android:padding="8dp"
@@ -63,35 +58,10 @@
                 android:textColor="@color/black"
                 android:drawablePadding="8dp"/>
 
-=======
-                android:id="@+id/username"
-                android:background="@drawable/custom_edittext"
-                android:layout_marginTop="40dp"
-                android:padding="8dp"
-                android:hint="Username"
-                android:drawableLeft="drawable/ic_baseline_person_24"
-                android:textColor="@color/black"
-                android:drawablePadding="8dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/password"
-                android:background="@drawable/custom_edittext"
-                android:layout_marginTop="20dp"
-                android:inputType="textPassword"
-                android:padding="8dp"
-                android:hint="Password"
-                android:drawableLeft="drawable/ic_baseline_lock_24"
-                android:textColor="@color/black"
-                android:drawablePadding="8dp"/>
-
->>>>>>> d87bacc009cd604e0f5e30525ca905664f54c5af
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Login"
-<<<<<<< HEAD
                 android:id="@+id/btnLog"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
@@ -100,18 +70,3 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
-=======
-                android:id="@+id/loginButton"
-                android:textSize="18sp"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="#8292f7"
-                app:cornerRadius = "20dp"/>
-
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-
-</LinearLayout>
->>>>>>> d87bacc009cd604e0f5e30525ca905664f54c5af
