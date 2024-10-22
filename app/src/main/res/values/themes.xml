@@ -2,8 +2,23 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ProyectoFinalDAM" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Color principal de la aplicación -->
+        <item name="colorPrimary">@color/saltBox</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Color secundario -->
+        <item name="colorSecondary">@color/Romantic</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Color terciario -->
+        <item name="colorTertiary">@color/TonysPink</item>
+        <item name="colorOnTertiary">@color/black</item>
+
+        <!-- Otros atributos del tema (opcional) -->
+        <item name="android:statusBarColor">@color/saltBox</item>
+        <item name="android:navigationBarColor">@color/saltBox</item>
     </style>
 
-    <style name="Theme.ProyectoFinalDAM" parent="Base.Theme.ProyectoFinalDAM" />
+    <style name="Theme.ProyectoFinalDAM" parent="Base.Theme.ProyectoFinalDAM"/>
 </resources>

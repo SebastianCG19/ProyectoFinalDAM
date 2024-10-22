@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--Colores agregados-->
+    <color name="saltBox">#8292f7</color>
+    <color name="Romantic">#FFCDB2</color>
+    <color name="TonysPink">#E5989B</color>
+
 </resources>
