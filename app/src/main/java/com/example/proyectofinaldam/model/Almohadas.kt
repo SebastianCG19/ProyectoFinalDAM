@@ -9,7 +9,7 @@ data class Almohadas (
     var nomProducto: String,
     var stock: String,
     var tamanio: String,
-    //var imageUrl: String
+    var imageUrl: String
 
     /*
     var descripcion: String,

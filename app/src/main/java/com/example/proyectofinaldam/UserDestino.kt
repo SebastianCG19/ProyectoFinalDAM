@@ -1,7 +1,9 @@
 package com.example.proyectofinaldam
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,6 +22,8 @@ class UserDestino : AppCompatActivity() {
     private var almohadaData: Almohadas? = null
     private lateinit var database: AlmohadasDatabase
     private lateinit var adapter: AlmohadasAdapter
+
+    private lateinit var selectedImageUri: Uri // Variable para almacenar la URI de la imagen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,13 @@ class UserDestino : AppCompatActivity() {
             finish() // Opcional: termina esta actividad si no deseas que el usuario regrese a ella al presionar el botón de retroceso
         }
 
-        // Configurar botón para agregar almohadas
+        // Configurar el ImageView para seleccionar la imagen
+        binding.uploadImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, 100)
+        }
+
+        // Configuración del botón de agregar
         binding.btnAgregar.setOnClickListener {
             val selectedTamanio = when (binding.rgTamanio.checkedRadioButtonId) {
                 R.id.rbGrande -> "Grande"
@@ -70,13 +80,15 @@ class UserDestino : AppCompatActivity() {
                     it?.nomProducto = binding.etNombre.text.toString()
                     it?.tamanio = selectedTamanio // Asignamos el tamaño seleccionado
                     it?.stock = binding.etStock.text.toString()
+                    it?.imageUrl = selectedImageUri.toString() // Guardar la URI de la imagen
                 }
                 updateAlmohadas(almohadaData)
             } else {
                 val nuevaAlmohada = Almohadas(
                     nomProducto = binding.etNombre.text.toString(),
                     tamanio = selectedTamanio,  // Asignamos el tamaño seleccionado
-                    stock = binding.etStock.text.toString()
+                    stock = binding.etStock.text.toString(),
+                    imageUrl = binding.uploadImage.toString()
                 )
                 createAlmohada(nuevaAlmohada)
             }
@@ -129,6 +141,16 @@ class UserDestino : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.insert(almohadas)
             updateData()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            data?.data?.let {
+                selectedImageUri = it
+                binding.uploadImage.setImageURI(selectedImageUri) // Mostrar la imagen seleccionada
+            }
         }
     }
 

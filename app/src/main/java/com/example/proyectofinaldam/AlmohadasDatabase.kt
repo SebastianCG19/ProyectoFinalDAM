@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.proyectofinaldam.model.Almohadas
 
-@Database(entities = [Almohadas::class], version = 1, exportSchema = false)
+@Database(entities = [Almohadas::class], version = 2, exportSchema = false)
 abstract class AlmohadasDatabase : RoomDatabase() { // Hereda de RoomDatabase
     abstract fun almohadasDAO(): AlmohadasDAO // Método abstracto para obtener el DAO
 
