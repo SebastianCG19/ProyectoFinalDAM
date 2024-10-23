@@ -3,71 +3,83 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
+        <!-- Image for product -->
         <ImageView
             android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5sp"
-            android:layout_marginTop="5sp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <!-- Texts for product details -->
         <LinearLayout
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5sp"
-            android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/txtNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="20sp" />
+                android:text="Nombre del Producto"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtTamaño"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="20sp" />
+                android:text="Tamaño"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/txtStock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="20sp" />
-
+                android:text="Stock"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
         </LinearLayout>
 
+        <!-- Buttons for edit and delete actions -->
         <LinearLayout
-            android:layout_width="132dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5sp"
-            android:layout_marginTop="5sp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="8dp">
 
             <Button
                 android:id="@+id/btnEditar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EDITAR" />
+                android:text="EDITAR"
+                android:textSize="12sp"
+                android:padding="4dp" />
 
             <Button
                 android:id="@+id/btnEliminar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ELIMINAR" />
+                android:text="ELIMINAR"
+                android:textSize="12sp"
+                android:padding="4dp" />
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

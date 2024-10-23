@@ -17,97 +17,93 @@ import kotlinx.coroutines.withContext
 class UserDestino : AppCompatActivity() {
     private lateinit var binding: ActivityUserDestinoBinding
     private lateinit var almohadasDao: AlmohadasDAO
-    private var userData: Almohadas? = null
+    private var almohadaData: Almohadas? = null
     private lateinit var database: AlmohadasDatabase
-    private lateinit var adapter:AlmohadasAdapter
+    private lateinit var adapter: AlmohadasAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding =ActivityUserDestinoBinding.inflate(layoutInflater)
+        binding = ActivityUserDestinoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Inicialización de la base de datos y el DAO
         database = AlmohadasDatabase.getDatabase(this)
         almohadasDao = database.almohadasDAO()
-        binding.rv.layoutManager = LinearLayoutManager(this)
 
+        // Inicialización del adaptador
+        adapter = AlmohadasAdapter(listOf(), { almohada ->
+            deleteAlmohada(almohada)
+        }, { almohada ->
+            updateAlmohadas(almohada)
+        })
+
+        // Configuración del RecyclerView
+        binding.rv.layoutManager = LinearLayoutManager(this)
         binding.rv.adapter = adapter
 
+        // Configuración del botón de agregar
         binding.btnAgregar.setOnClickListener {
-            if(userData != null){
-                userData.let {
+            if (almohadaData != null) {
+                almohadaData.let {
                     it?.nomProducto = binding.etNombre.text.toString()
                     it?.tamanio = binding.etTamaO.text.toString()
-                    it?.stock= binding.etTamaO.text.toString()
+                    it?.stock = binding.etStock.text.toString()
                 }
-                almohadasDao(userData)
-            }else{
-                val userTest = Almohadas(nomProducto = binding.etNombre.text.toString(), tamanio = binding.etTamaO.text.toString(), stock = binding.etStock.text.toString())
-                createUser(userTest)
+                updateAlmohadas(almohadaData)
+            } else {
+                val nuevaAlmohada = Almohadas(
+                    nomProducto = binding.etNombre.text.toString(),
+                    tamanio = binding.etTamaO.text.toString(),
+                    stock = binding.etStock.text.toString()
+                )
+                createAlmohada(nuevaAlmohada)
             }
             binding.etNombre.text.clear()
             binding.etTamaO.text.clear()
             binding.etStock.text.clear()
         }
 
-        /*
-        binding.btnSalir.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.clear()  // Borra las credenciales o sesión almacenada
-            editor.apply()
-
-            // Redirige al LoginActivity o la actividad de inicio de sesión
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()  // Finaliza la actividad actual para evitar volver a ella
-        }
-
-
+        // Cargar datos iniciales
         updateDate()
-
-        */
-
     }
-    fun createUser(almohadas : Almohadas){
+
+    fun createAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.insert(almohadas)
             updateDate()
         }
     }
 
-    fun updateAlmohadas(almohadas : Almohadas?){
+    fun updateAlmohadas(almohadas: Almohadas?) {
         CoroutineScope(Dispatchers.IO).launch {
-            almohadas?.let{
+            almohadas?.let {
                 almohadasDao.update(it)
             }
             updateDate()
-            userData = null
+            almohadaData = null
         }
     }
 
-
-    fun updateDate(){
+    fun updateDate() {
         CoroutineScope(Dispatchers.IO).launch {
             val almohadas = almohadasDao.getAllAlmohadas()
-            withContext(Dispatchers.Main){
-                adapter.updateAlmohadas(almohadasDao)
+            withContext(Dispatchers.Main) {
+                adapter.updateAlmohadas(almohadas)
             }
         }
     }
 
-    fun deleteAlmohada(almohadas : Almohadas){
+    fun deleteAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.delete(almohadas)
             updateDate()
         }
-    }
-
     }
 }

@@ -26,4 +26,5 @@ abstract class AlmohadasDatabase : RoomDatabase() { // Hereda de RoomDatabase
             }
         }
     }
+
 }
