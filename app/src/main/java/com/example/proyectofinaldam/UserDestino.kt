@@ -1,11 +1,15 @@
 package com.example.proyectofinaldam
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,12 +28,16 @@ class UserDestino : AppCompatActivity() {
     private lateinit var adapter: AlmohadasAdapter
 
     private lateinit var selectedImageUri: Uri // Variable para almacenar la URI de la imagen
+    private val REQUEST_CODE_STORAGE_PERMISSION = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityUserDestinoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Verificar y solicitar permisos
+        checkStoragePermission()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -45,15 +53,7 @@ class UserDestino : AppCompatActivity() {
         binding.rv.layoutManager = LinearLayoutManager(this)
 
         // Inicialización del adaptador
-        adapter = AlmohadasAdapter(listOf(), { almohada ->
-            deleteAlmohada(almohada)
-        }, { almohada ->
-            updateAlmohadaForEditing(almohada)
-        })
-
-        binding.rv.adapter = adapter
-
-
+        adapter = AlmohadasAdapter(listOf(), { almohada -> deleteAlmohada(almohada) }, { almohada -> updateAlmohadaForEditing(almohada) })
 
         // Configurar el ImageView para seleccionar la imagen
         binding.uploadImage.setOnClickListener {
@@ -71,19 +71,19 @@ class UserDestino : AppCompatActivity() {
             }
 
             if (almohadaData != null) {
-                almohadaData.let {
-                    it?.nomProducto = binding.etNombre.text.toString()
-                    it?.tamanio = selectedTamanio // Asignamos el tamaño seleccionado
-                    it?.stock = binding.etStock.text.toString()
-                    it?.imageUrl = selectedImageUri.toString() // Guardar la URI de la imagen
+                almohadaData?.let {
+                    it.nomProducto = binding.etNombre.text.toString()
+                    it.tamanio = selectedTamanio // Asignamos el tamaño seleccionado
+                    it.stock = binding.etStock.text.toString()
+                    it.imageUrl = selectedImageUri.toString() // Guardar la URI de la imagen
                 }
                 updateAlmohadas(almohadaData)
             } else {
                 val nuevaAlmohada = Almohadas(
                     nomProducto = binding.etNombre.text.toString(),
-                    tamanio = selectedTamanio,  // Asignamos el tamaño seleccionado
+                    tamanio = selectedTamanio, // Asignamos el tamaño seleccionado
                     stock = binding.etStock.text.toString(),
-                    imageUrl = binding.uploadImage.toString()
+                    imageUrl = selectedImageUri.toString() // Corregido: usar la URI de la imagen
                 )
                 createAlmohada(nuevaAlmohada)
             }
@@ -103,15 +103,38 @@ class UserDestino : AppCompatActivity() {
             finish() // Opcional: terminar la actividad actual
         }
 
-
         // Configurar botón para buscar almohadas
         binding.btnBuscar.setOnClickListener {
             val query = binding.etBuscar.text.toString()
             filterAlmohadas(query)
         }
 
+        binding.rv.adapter = adapter
+
         // Cargar datos iniciales
         updateData()
+    }
+
+    // Método para verificar y solicitar permisos
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_STORAGE_PERMISSION)
+        }
+    }
+
+    // Manejar la respuesta de permisos
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, puedes continuar
+            } else {
+                // El permiso fue denegado, informa al usuario
+                Toast.makeText(this, "Permiso denegado para acceder a la galería.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun clearInputFields() {
@@ -143,8 +166,7 @@ class UserDestino : AppCompatActivity() {
         binding.etStock.setText(almohada.stock)
     }
 
-
-    fun createAlmohada(almohadas: Almohadas) {
+    private fun createAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.insert(almohadas)
             updateData()
@@ -161,7 +183,7 @@ class UserDestino : AppCompatActivity() {
         }
     }
 
-    fun updateAlmohadas(almohadas: Almohadas?) {
+    private fun updateAlmohadas(almohadas: Almohadas?) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadas?.let {
                 almohadasDao.update(it)
@@ -171,7 +193,7 @@ class UserDestino : AppCompatActivity() {
         }
     }
 
-    fun updateData() {
+    private fun updateData() {
         CoroutineScope(Dispatchers.IO).launch {
             val almohadas = almohadasDao.getAllAlmohadas()
             withContext(Dispatchers.Main) {
@@ -180,7 +202,7 @@ class UserDestino : AppCompatActivity() {
         }
     }
 
-    fun deleteAlmohada(almohadas: Almohadas) {
+    private fun deleteAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.delete(almohadas)
             updateData()

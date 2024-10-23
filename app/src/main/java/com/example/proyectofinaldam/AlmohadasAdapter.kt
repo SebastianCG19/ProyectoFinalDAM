@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinaldam.databinding.ItemDestinoBinding
 import com.example.proyectofinaldam.model.Almohadas
+import com.squareup.picasso.Picasso // Importa la librería Picasso
 
 class AlmohadasAdapter(
     private var lstAlmohadas: List<Almohadas>,
@@ -31,6 +32,15 @@ class AlmohadasAdapter(
         holder.binding.txtNombre.text = almohadas.nomProducto
         holder.binding.txtTamaO.text = almohadas.tamanio
         holder.binding.txtStock.text = almohadas.stock
+
+        // Cargar la imagen usando Picasso
+        if (almohadas.imageUrl.isNotEmpty()) { // Verifica que la URL no esté vacía
+            Picasso.get()
+                .load(almohadas.imageUrl)
+                //.placeholder(R.drawable.placeholder) // Reemplaza con un recurso de imagen de carga
+                //.error(R.drawable.error_image) // Reemplaza con un recurso de imagen de error
+                .into(holder.binding.img) // Asegúrate de que tu ItemDestinoBinding tenga un ImageView
+        }
 
         // Acciones para eliminar
         holder.binding.btnEliminar.setOnClickListener {
