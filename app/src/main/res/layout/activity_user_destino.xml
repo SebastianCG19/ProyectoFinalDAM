@@ -50,34 +50,10 @@
             android:layout_marginBottom="16dp" />
 
         <!-- Precio -->
-        <EditText
-            android:id="@+id/etPrecio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Precio"
-            android:inputType="numberDecimal"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp" />
 
         <!-- Tipo de almohada -->
-        <EditText
-            android:id="@+id/etTipo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tipo"
-            android:inputType="text"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp" />
 
         <!-- Descripción -->
-        <EditText
-            android:id="@+id/etDescripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Descripción"
-            android:inputType="text"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
 
         <!-- Botones AGREGAR y BUSCAR -->
         <LinearLayout
