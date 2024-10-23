@@ -32,13 +32,16 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 // Validar las credenciales
-                if (user == "pepa" && password == "pepita1") {
+                if (user == "user" && password == "123") {
                     // Crear la sesión y redirigir a UserDestino
                     UtilsSharePreferences.createSession(this)
                     startActivity(Intent(this, UserDestino::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 } else {
                     // Mostrar error de credenciales
                     Toast.makeText(this, "Error en las credenciales", Toast.LENGTH_SHORT).show()
+                    binding.etUser.setText("")
+                    binding.etPassword.setText("")
+                    binding.etUser.requestFocus()
                 }
             }
         }
