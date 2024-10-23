@@ -47,7 +47,7 @@ class AlmohadasAdapter(
     // Función para actualizar la lista de almohadas
     fun updateAlmohadas(newList: List<Almohadas>) {
         lstAlmohadas = newList
-        notifyItemInserted(lstAlmohadas.size - 1) // Notifica que un nuevo elemento fue insertado al final
+        notifyDataSetChanged() // Notifica que un nuevo elemento fue insertado al final
     }
 
 
