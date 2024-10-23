@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".UserDestino">
 
+    <!-- Botón Logout -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="CERRAR SESION"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Sección de entrada de datos -->
     <LinearLayout
         android:id="@+id/dataInputLayout"
@@ -14,73 +24,93 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogout">
 
         <!-- Nombre -->
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:hint="Nombre"
             android:inputType="text"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp" />
+            android:padding="10dp" />
 
-        <!-- Tamaño -->
-        <EditText
-            android:id="@+id/etTamaño"
+        <!-- Tamaño - usando RadioButtons en un RadioGroup -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Seleccione el tamaño" />
+
+        <RadioGroup
+            android:id="@+id/rgTamanio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tamaño"
-            android:inputType="text"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbGrande"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:text="Grande" />
+
+            <RadioButton
+                android:id="@+id/rbMediano"
+                android:layout_width="108dp"
+                android:layout_height="wrap_content"
+                android:text="Mediano" />
+
+            <RadioButton
+                android:id="@+id/rbPequenio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pequeño" />
+        </RadioGroup>
 
         <!-- Stock -->
         <EditText
             android:id="@+id/etStock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:hint="Stock"
             android:inputType="number"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
+            android:padding="10dp" />
 
-        <!-- Precio -->
-
-        <!-- Tipo de almohada -->
-
-        <!-- Descripción -->
-
-        <!-- Botones AGREGAR y BUSCAR -->
-        <LinearLayout
+        <!-- Botón AGREGAR -->
+        <Button
+            android:id="@+id/btnAgregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="8dp"
+            android:text="AGREGAR" />
 
-            <!-- Botón AGREGAR -->
-            <Button
-                android:id="@+id/btnAgregar"
-                android:layout_width="0dp"
+        <!-- EditText para buscar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etBuscar"
+                android:layout_width="197dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="AGREGAR" />
+                android:layout_marginBottom="8dp"
+                android:hint="Almohada"
+                android:inputType="text"
+                android:padding="10dp" />
 
-            <!-- Botón BUSCAR -->
             <Button
                 android:id="@+id/btnBuscar"
-                android:layout_width="0dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
                 android:text="BUSCAR" />
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- RecyclerView para mostrar los productos -->

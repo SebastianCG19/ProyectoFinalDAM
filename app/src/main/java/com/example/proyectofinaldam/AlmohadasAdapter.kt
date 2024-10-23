@@ -3,12 +3,11 @@ package com.example.proyectofinaldam
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyectofinaldam.databinding.ActivityUserDestinoBinding
 import com.example.proyectofinaldam.databinding.ItemDestinoBinding
 import com.example.proyectofinaldam.model.Almohadas
 
 class AlmohadasAdapter(
-    var lstAlmohadas: List<Almohadas>,
+    private var lstAlmohadas: List<Almohadas>,
     private var actionDelete: (almohadas: Almohadas) -> Unit,
     private var actionUpdate: (almohadas: Almohadas) -> Unit
 ) : RecyclerView.Adapter<AlmohadasAdapter.AlmohadasViewHolder>() {
@@ -38,7 +37,7 @@ class AlmohadasAdapter(
             actionDelete(almohadas)
         }
 
-        // Acciones para actualizar (si tienes un botón o acción para ello)
+        // Acciones para editar
         holder.binding.btnEditar.setOnClickListener {
             actionUpdate(almohadas)
         }
@@ -47,9 +46,17 @@ class AlmohadasAdapter(
     // Función para actualizar la lista de almohadas
     fun updateAlmohadas(newList: List<Almohadas>) {
         lstAlmohadas = newList
-        notifyDataSetChanged() // Notifica que un nuevo elemento fue insertado al final
+        notifyDataSetChanged() // Notifica que la lista ha cambiado
     }
 
+    // Método para filtrar almohadas por nombre
+    fun filterList(filteredAlmohadas: List<Almohadas>) {
+        lstAlmohadas = filteredAlmohadas
+        notifyDataSetChanged()
+    }
 
-
+    // Método para obtener una almohada en una posición específica
+    fun getAlmohadaAt(position: Int): Almohadas {
+        return lstAlmohadas[position]
+    }
 }

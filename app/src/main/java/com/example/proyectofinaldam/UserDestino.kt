@@ -40,48 +40,95 @@ class UserDestino : AppCompatActivity() {
         // Configuración del RecyclerView
         binding.rv.layoutManager = LinearLayoutManager(this)
 
-        //icialización del adaptador
+        // Inicialización del adaptador
         adapter = AlmohadasAdapter(listOf(), { almohada ->
             deleteAlmohada(almohada)
         }, { almohada ->
-            updateAlmohadas(almohada)
+            updateAlmohadaForEditing(almohada)
         })
-
 
         binding.rv.adapter = adapter
 
-        // Configuración del botón de agregar
+        binding.btnLogout.setOnClickListener {
+            // Lógica para manejar el logout, como cerrar sesión y volver a la actividad de inicio de sesión.
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish() // Opcional: termina esta actividad si no deseas que el usuario regrese a ella al presionar el botón de retroceso
+        }
+
+        // Configurar botón para agregar almohadas
         binding.btnAgregar.setOnClickListener {
+            val selectedTamanio = when (binding.rgTamanio.checkedRadioButtonId) {
+                R.id.rbGrande -> "Grande"
+                R.id.rbMediano -> "Mediano"
+                R.id.rbPequenio -> "Pequeño"
+                else -> ""
+            }
+
             if (almohadaData != null) {
                 almohadaData.let {
                     it?.nomProducto = binding.etNombre.text.toString()
-                    it?.tamanio = binding.etTamaO.text.toString()
+                    it?.tamanio = selectedTamanio // Asignamos el tamaño seleccionado
                     it?.stock = binding.etStock.text.toString()
                 }
                 updateAlmohadas(almohadaData)
             } else {
                 val nuevaAlmohada = Almohadas(
                     nomProducto = binding.etNombre.text.toString(),
-                    tamanio = binding.etTamaO.text.toString(),
+                    tamanio = selectedTamanio,  // Asignamos el tamaño seleccionado
                     stock = binding.etStock.text.toString()
                 )
                 createAlmohada(nuevaAlmohada)
             }
-            binding.etNombre.text.clear()
-            binding.etTamaO.text.clear()
-            binding.etStock.text.clear()
 
-            binding.etNombre.requestFocus()
+            // Limpiar campos después de agregar
+            clearInputFields()
+        }
+
+        // Configurar botón para buscar almohadas
+        binding.btnBuscar.setOnClickListener {
+            val query = binding.etBuscar.text.toString()
+            filterAlmohadas(query)
         }
 
         // Cargar datos iniciales
-        updateDate()
+        updateData()
     }
+
+    private fun clearInputFields() {
+        binding.etNombre.text.clear()
+        binding.rgTamanio.clearCheck()  // Limpiar selección de RadioButtons
+        binding.etStock.text.clear()
+        binding.etNombre.requestFocus()
+    }
+
+    private fun filterAlmohadas(query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val filteredList = almohadasDao.getAllAlmohadas().filter {
+                it.nomProducto.contains(query, ignoreCase = true)
+            }
+            withContext(Dispatchers.Main) {
+                adapter.filterList(filteredList)
+            }
+        }
+    }
+
+    private fun updateAlmohadaForEditing(almohada: Almohadas) {
+        almohadaData = almohada
+        binding.etNombre.setText(almohada.nomProducto)
+        when (almohada.tamanio) {
+            "Grande" -> binding.rbGrande.isChecked = true
+            "Mediano" -> binding.rbMediano.isChecked = true
+            "Pequeño" -> binding.rbPequenio.isChecked = true
+        }
+        binding.etStock.setText(almohada.stock)
+    }
+
 
     fun createAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.insert(almohadas)
-            updateDate()
+            updateData()
         }
     }
 
@@ -90,12 +137,12 @@ class UserDestino : AppCompatActivity() {
             almohadas?.let {
                 almohadasDao.update(it)
             }
-            updateDate()
+            updateData()
             almohadaData = null
         }
     }
 
-    fun updateDate() {
+    fun updateData() {
         CoroutineScope(Dispatchers.IO).launch {
             val almohadas = almohadasDao.getAllAlmohadas()
             withContext(Dispatchers.Main) {
@@ -107,7 +154,7 @@ class UserDestino : AppCompatActivity() {
     fun deleteAlmohada(almohadas: Almohadas) {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.delete(almohadas)
-            updateDate()
+            updateData()
         }
     }
 }
