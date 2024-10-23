@@ -37,15 +37,17 @@ class UserDestino : AppCompatActivity() {
         database = AlmohadasDatabase.getDatabase(this)
         almohadasDao = database.almohadasDAO()
 
-        // Inicialización del adaptador
+        // Configuración del RecyclerView
+        binding.rv.layoutManager = LinearLayoutManager(this)
+
+        //icialización del adaptador
         adapter = AlmohadasAdapter(listOf(), { almohada ->
             deleteAlmohada(almohada)
         }, { almohada ->
             updateAlmohadas(almohada)
         })
 
-        // Configuración del RecyclerView
-        binding.rv.layoutManager = LinearLayoutManager(this)
+
         binding.rv.adapter = adapter
 
         // Configuración del botón de agregar
@@ -68,6 +70,8 @@ class UserDestino : AppCompatActivity() {
             binding.etNombre.text.clear()
             binding.etTamaO.text.clear()
             binding.etStock.text.clear()
+
+            binding.etNombre.requestFocus()
         }
 
         // Cargar datos iniciales
