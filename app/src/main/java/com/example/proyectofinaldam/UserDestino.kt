@@ -53,12 +53,7 @@ class UserDestino : AppCompatActivity() {
 
         binding.rv.adapter = adapter
 
-        binding.btnLogout.setOnClickListener {
-            // Lógica para manejar el logout, como cerrar sesión y volver a la actividad de inicio de sesión.
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish() // Opcional: termina esta actividad si no deseas que el usuario regrese a ella al presionar el botón de retroceso
-        }
+
 
         // Configurar el ImageView para seleccionar la imagen
         binding.uploadImage.setOnClickListener {
@@ -96,6 +91,20 @@ class UserDestino : AppCompatActivity() {
             // Limpiar campos después de agregar
             clearInputFields()
         }
+
+        binding.btnLogout.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()  // Borra las credenciales o sesión almacenada
+            editor.apply()
+
+            // Redirige al LoginActivity o la actividad de inicio de sesión
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()  // Finaliza la actividad actual para evitar volver a ella
+        }
+
 
         // Configurar botón para buscar almohadas
         binding.btnBuscar.setOnClickListener {

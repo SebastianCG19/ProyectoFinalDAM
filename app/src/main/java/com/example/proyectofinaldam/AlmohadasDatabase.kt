@@ -12,19 +12,20 @@ abstract class AlmohadasDatabase : RoomDatabase() { // Hereda de RoomDatabase
 
     companion object {
         @Volatile
-        private var INSTANCE: AlmohadasDatabase? = null // Instancia de la base de datos
+        private var INSTANCE: AlmohadasDatabase? = null
 
-        fun getDatabase(context: Context): AlmohadasDatabase { // Método para obtener la instancia
-            return INSTANCE ?: synchronized(this) { // Si no existe una instancia
+        fun getDatabase(context: Context): AlmohadasDatabase {
+            return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AlmohadasDatabase::class.java,
-                    "almohadas_database" // Nombre de la base de datos
-                ).build()
-                INSTANCE = instance // Asignar la nueva instancia
-                instance // Retornar la instancia
+                    "almohadas_database"
+                )
+                    .fallbackToDestructiveMigration() // Permitir la destrucción de la base de datos en caso de migraciones
+                    .build()
+                INSTANCE = instance
+                instance
             }
         }
     }
-
 }

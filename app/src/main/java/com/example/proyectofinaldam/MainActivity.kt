@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 insets
             }
 
+
             binding.btnLog.setOnClickListener {
                 val user = binding.etUser.text.toString()
                 val password = binding.etPassword.text.toString()
