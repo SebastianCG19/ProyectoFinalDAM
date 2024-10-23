@@ -10,4 +10,5 @@ data class Almohadas (
     var stock: String,
     var tamanio: String,
     var imageUrl: String
+
 )
