@@ -93,16 +93,14 @@ class UserDestino : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.clear()  // Borra las credenciales o sesión almacenada
-            editor.apply()
+            // Limpiar la sesión
+            UtilsSharePreferences.clearSession(this)
 
-            // Redirige al LoginActivity o la actividad de inicio de sesión
+            // Volver a la MainActivity
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
-            finish()  // Finaliza la actividad actual para evitar volver a ella
+            finish() // Opcional: terminar la actividad actual
         }
 
 
