@@ -75,10 +75,19 @@ class ListadoActivity : AppCompatActivity() {
     }
 
     private fun eliminarAlmohada(almohada: Almohadas) {
-        // Implementa la lógica para eliminar la almohada
-        listaAlmohadas.remove(almohada)
-        almohadasAdapter.notifyDataSetChanged() // Notifica al adaptador que los datos han cambiado
+        // Usa Coroutine para eliminar la almohada en la base de datos
+        CoroutineScope(Dispatchers.IO).launch {
+            // Eliminar la almohada de la base de datos
+            AlmohadasDatabase.getDatabase(applicationContext).almohadasDAO().delete(almohada)
+
+            // Actualizar la lista en la interfaz de usuario
+            withContext(Dispatchers.Main) {
+                listaAlmohadas.remove(almohada)  // Eliminar de la lista en memoria
+                almohadasAdapter.notifyDataSetChanged()  // Notificar cambios en la UI
+            }
+        }
     }
+
 
     private fun editarAlmohada(almohada: Almohadas) {
         // Implementa la lógica para editar la almohada
