@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class UserDestino : AppCompatActivity() {
+
+
     private lateinit var binding: ActivityUserDestinoBinding
     private lateinit var almohadasDao: AlmohadasDAO
     private var almohadaData: Almohadas? = null
@@ -156,6 +158,7 @@ class UserDestino : AppCompatActivity() {
         binding.etNombre.text.clear()
         binding.rgTamanio.clearCheck()  // Limpiar selección de RadioButtons
         binding.etStock.text.clear()
+        binding.uploadImage.setImageResource(R.drawable.uploadimg) // Limpiar el campo de subida de la imagen
         binding.etNombre.requestFocus()
     }
 
