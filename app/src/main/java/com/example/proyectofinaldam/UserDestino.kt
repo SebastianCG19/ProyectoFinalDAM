@@ -103,8 +103,9 @@ class UserDestino : AppCompatActivity() {
                     imageUrl = imageUri // Usar la URI de la imagen
                 )
                 createAlmohada(nuevaAlmohada)
-            }
 
+            }
+            Toast.makeText(this,"Se agrego correctamente a la lista",Toast.LENGTH_SHORT).show()
             // Limpiar campos después de agregar
             clearInputFields()
         }
@@ -188,6 +189,7 @@ class UserDestino : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             almohadasDao.insert(almohadas)
             updateData()
+
         }
     }
 
