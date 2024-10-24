@@ -49,9 +49,6 @@ class UserDestino : AppCompatActivity() {
         database = AlmohadasDatabase.getDatabase(this)
         almohadasDao = database.almohadasDAO()
 
-        // Configuración del RecyclerView
-        binding.rv.layoutManager = LinearLayoutManager(this)
-
         // Inicialización del adaptador
         adapter = AlmohadasAdapter(listOf(), { almohada -> deleteAlmohada(almohada) }, { almohada -> updateAlmohadaForEditing(almohada) })
 
@@ -70,20 +67,38 @@ class UserDestino : AppCompatActivity() {
                 else -> ""
             }
 
+            // Recoger el nombre y el stock, asegurándose de que no estén vacíos
+            val nombreProducto = binding.etNombre.text.toString()
+            val stock = binding.etStock.text.toString()
+
+            if (nombreProducto.isEmpty() || stock.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos requeridos.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener // Evita continuar si hay campos vacíos
+            }
+
+            // Manejar la URI de la imagen
+            val imageUri = if (::selectedImageUri.isInitialized) {
+                selectedImageUri.toString()
+            } else {
+                "" // Usar una cadena vacía si no se ha inicializado
+            }
+
+            // Si ya existe una almohada para actualizar
             if (almohadaData != null) {
                 almohadaData?.let {
-                    it.nomProducto = binding.etNombre.text.toString()
+                    it.nomProducto = nombreProducto
                     it.tamanio = selectedTamanio // Asignamos el tamaño seleccionado
-                    it.stock = binding.etStock.text.toString()
-                    it.imageUrl = selectedImageUri.toString() // Guardar la URI de la imagen
+                    it.stock = stock // Mantener stock como String
+                    it.imageUrl = imageUri // Usar la URI de la imagen
                 }
                 updateAlmohadas(almohadaData)
             } else {
+                // Crear una nueva almohada
                 val nuevaAlmohada = Almohadas(
-                    nomProducto = binding.etNombre.text.toString(),
+                    nomProducto = nombreProducto,
                     tamanio = selectedTamanio, // Asignamos el tamaño seleccionado
-                    stock = binding.etStock.text.toString(),
-                    imageUrl = selectedImageUri.toString() // Corregido: usar la URI de la imagen
+                    stock = stock, // Mantener stock como String
+                    imageUrl = imageUri // Usar la URI de la imagen
                 )
                 createAlmohada(nuevaAlmohada)
             }
@@ -91,6 +106,8 @@ class UserDestino : AppCompatActivity() {
             // Limpiar campos después de agregar
             clearInputFields()
         }
+
+
 
         binding.btnLogout.setOnClickListener {
             // Limpiar la sesión
@@ -103,13 +120,11 @@ class UserDestino : AppCompatActivity() {
             finish() // Opcional: terminar la actividad actual
         }
 
-        // Configurar botón para buscar almohadas
-        binding.btnBuscar.setOnClickListener {
-            val query = binding.etBuscar.text.toString()
-            filterAlmohadas(query)
+        // Configurar botón para redirigir a la lista de almohadas (nueva vista)
+        binding.btnListado.setOnClickListener {
+            val intent = Intent(this, ListadoActivity::class.java)
+            startActivity(intent)
         }
-
-        binding.rv.adapter = adapter
 
         // Cargar datos iniciales
         updateData()
@@ -150,7 +165,7 @@ class UserDestino : AppCompatActivity() {
                 it.nomProducto.contains(query, ignoreCase = true)
             }
             withContext(Dispatchers.Main) {
-                adapter.filterList(filteredList)
+                adapter.filterAlmohadas(query) // Cambiado de filterList a filterAlmohadas
             }
         }
     }
@@ -195,9 +210,9 @@ class UserDestino : AppCompatActivity() {
 
     private fun updateData() {
         CoroutineScope(Dispatchers.IO).launch {
-            val almohadas = almohadasDao.getAllAlmohadas()
+            val listAlmohadas = almohadasDao.getAllAlmohadas()
             withContext(Dispatchers.Main) {
-                adapter.updateAlmohadas(almohadas)
+                adapter.updateAlmohadas(listAlmohadas)
             }
         }
     }

@@ -13,14 +13,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         if (UtilsSharePreferences.getSession(this)) {
             startActivity(
                 Intent(
                     this,
-                    UserDestino::class.java
+                    Menu::class.java // Cambia UserDestino por Menu
                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             )
         } else {
@@ -31,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
                 insets
             }
-
 
             binding.btnLog.setOnClickListener {
                 val user = binding.etUser.text.toString()
@@ -44,12 +42,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     // Validar las credenciales
                     if (user == "user" && password == "123") {
-                        // Crear la sesión y redirigir a UserDestino
+                        // Crear la sesión y redirigir a Menu
                         UtilsSharePreferences.createSession(this)
                         startActivity(
                             Intent(
                                 this,
-                                UserDestino::class.java
+                                Menu::class.java // Cambia UserDestino por Menu
                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         )
                     } else {

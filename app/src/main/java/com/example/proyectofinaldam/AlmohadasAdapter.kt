@@ -1,11 +1,12 @@
 package com.example.proyectofinaldam
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinaldam.databinding.ItemDestinoBinding
 import com.example.proyectofinaldam.model.Almohadas
-import com.squareup.picasso.Picasso // Importa la librería Picasso
+import com.squareup.picasso.Picasso
 
 class AlmohadasAdapter(
     private var lstAlmohadas: List<Almohadas>,
@@ -13,8 +14,7 @@ class AlmohadasAdapter(
     private var actionUpdate: (almohadas: Almohadas) -> Unit
 ) : RecyclerView.Adapter<AlmohadasAdapter.AlmohadasViewHolder>() {
 
-    class AlmohadasViewHolder(val binding: ItemDestinoBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class AlmohadasViewHolder(val binding: ItemDestinoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlmohadasViewHolder {
         val binding = ItemDestinoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -31,14 +31,12 @@ class AlmohadasAdapter(
         // Vincula los datos de la almohada a las vistas del ViewHolder
         holder.binding.txtNombre.text = almohadas.nomProducto
         holder.binding.txtTamaO.text = almohadas.tamanio
-        holder.binding.txtStock.text = almohadas.stock
+        holder.binding.txtStock.text = almohadas.stock.toString()
 
         // Cargar la imagen usando Picasso
-        if (almohadas.imageUrl.isNotEmpty()) { // Verifica que la URL no esté vacía
+        if (almohadas.imageUrl.isNotEmpty()) {
             Picasso.get()
                 .load(almohadas.imageUrl)
-                //.placeholder(R.drawable.placeholder) // Reemplaza con un recurso de imagen de carga
-                //.error(R.drawable.error_image) // Reemplaza con un recurso de imagen de error
                 .into(holder.binding.img) // Asegúrate de que tu ItemDestinoBinding tenga un ImageView
         }
 
@@ -49,7 +47,13 @@ class AlmohadasAdapter(
 
         // Acciones para editar
         holder.binding.btnEditar.setOnClickListener {
-            actionUpdate(almohadas)
+            val context = holder.itemView.context
+            val intent = Intent(context, UserDestino::class.java)
+            intent.putExtra("NOMBRE_PRODUCTO", almohadas.nomProducto)
+            intent.putExtra("TAMANIO", almohadas.tamanio)
+            intent.putExtra("STOCK", almohadas.stock.toString())
+            intent.putExtra("IMAGE_URL", almohadas.imageUrl)
+            context.startActivity(intent)
         }
     }
 
@@ -60,9 +64,13 @@ class AlmohadasAdapter(
     }
 
     // Método para filtrar almohadas por nombre
-    fun filterList(filteredAlmohadas: List<Almohadas>) {
-        lstAlmohadas = filteredAlmohadas
-        notifyDataSetChanged()
+    fun filterAlmohadas(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            lstAlmohadas // Si la búsqueda está vacía, retorna la lista original
+        } else {
+            lstAlmohadas.filter { it.nomProducto.contains(query, ignoreCase = true) }
+        }
+        updateAlmohadas(filteredList) // Actualiza la lista con los resultados filtrados
     }
 
     // Método para obtener una almohada en una posición específica

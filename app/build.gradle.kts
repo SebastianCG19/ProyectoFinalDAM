@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("androidx.room")
     id("kotlin-kapt")
+
 }
 
 android {
@@ -39,6 +40,12 @@ android {
     viewBinding{
         enable = true
     }
+    //agrego stephanie
+    android {
+        buildFeatures {
+            viewBinding = true
+        }
+    }
 }
 
 dependencies {
@@ -65,7 +72,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
 
     // Dependencia para Picasso
-    implementation("com.squareup.picasso:picasso:2.71828") //picasso
+    implementation ("com.squareup.picasso:picasso:2.71828") // Versión estable de Picasso
 
 
 
