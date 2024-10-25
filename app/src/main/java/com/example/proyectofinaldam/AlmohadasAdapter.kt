@@ -48,14 +48,17 @@ class AlmohadasAdapter(
         // Acciones para editar
         holder.binding.btnEditar.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, UserDestino::class.java)
-            intent.putExtra("NOMBRE_PRODUCTO", almohadas.nomProducto)
-            intent.putExtra("TAMANIO", almohadas.tamanio)
-            intent.putExtra("STOCK", almohadas.stock.toString())
-            intent.putExtra("IMAGE_URL", almohadas.imageUrl)
+            val intent = Intent(context, UserDestino::class.java).apply {
+                putExtra("NOMBRE_PRODUCTO", almohadas.nomProducto)
+                putExtra("TAMANIO", almohadas.tamanio)
+                putExtra("STOCK", almohadas.stock)
+                putExtra("IMAGE_URL", almohadas.imageUrl)
+            }
             context.startActivity(intent)
         }
     }
+
+
 
     // Función para actualizar la lista de almohadas
     fun updateAlmohadas(newList: List<Almohadas>) {

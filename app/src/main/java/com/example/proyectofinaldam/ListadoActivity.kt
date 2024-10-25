@@ -2,11 +2,13 @@ package com.example.proyectofinaldam
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinaldam.databinding.ActivityUserDestinoBinding
 import com.example.proyectofinaldam.model.Almohadas
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +17,7 @@ import kotlinx.coroutines.withContext
 
 class ListadoActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityUserDestinoBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var almohadasAdapter: AlmohadasAdapter
     private var listaAlmohadas: MutableList<Almohadas> = mutableListOf()
@@ -25,6 +28,8 @@ class ListadoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listado)
+
+        binding= ActivityUserDestinoBinding.inflate(layoutInflater)
 
         // Inicializa los elementos de la vista
         recyclerView = findViewById(R.id.rv)
@@ -92,5 +97,7 @@ class ListadoActivity : AppCompatActivity() {
     private fun editarAlmohada(almohada: Almohadas) {
         // Implementa la lógica para editar la almohada
         // Por ejemplo, abrir un diálogo para editar la almohada y luego actualizar la lista
+
+
     }
 }
