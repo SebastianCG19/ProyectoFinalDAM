@@ -88,11 +88,6 @@
 
 
 
-
-
-
-
-
             // Inicialización de la base de datos y el DAO
             database = AlmohadasDatabase.getDatabase(this)
             almohadasDao = database.almohadasDAO()
