@@ -96,6 +96,7 @@ class ListadoActivity : AppCompatActivity() {
     }
 
     private fun editarAlmohada(almohada: Almohadas) {
-        // Implementa la lógica para editar la almohada
+
     }
+
 }

@@ -28,35 +28,54 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Iniciar sesión"
                 android:id="@+id/loginText"
                 android:textSize="36sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="#8292f7"/>
+                android:textColor="@color/saltBox"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/etUser"
+                android:background="@drawable/custom_edittext"
                 android:layout_marginTop="40dp"
                 android:padding="8dp"
                 android:hint="Username"
-
+                android:drawableLeft="@drawable/baseline_person_24"
                 android:textColor="@color/black"
                 android:drawablePadding="8dp"/>
 
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/etPassword"
-                android:layout_marginTop="20dp"
-                android:inputType="textPassword"
-                android:padding="8dp"
-                android:hint="Password"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                android:textColor="@color/black"
-                android:drawablePadding="8dp"/>
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="221dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/custom_edittext"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawablePadding="8dp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+
+                    android:padding="8dp"
+                    android:textColor="@color/black" />
+
+
+                <ImageView
+                    android:id="@+id/ivShowPassword"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="35dp"
+                    android:contentDescription="Mostrar/Ocultar Contraseña"
+                    android:src="@drawable/baseline_remove_red_eye_24" />
+            </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"
@@ -65,7 +84,7 @@
                 android:id="@+id/btnLog"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="#8292f7"
+                android:backgroundTint="@color/saltBox"
                 app:cornerRadius="20dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

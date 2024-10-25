@@ -37,6 +37,7 @@ class AlmohadasAdapter(
         if (almohadas.imageUrl.isNotEmpty()) {
             Picasso.get()
                 .load(almohadas.imageUrl)
+                .placeholder(R.drawable.uploadimg) // Reemplaza con tu recurso de imagen
                 .into(holder.binding.img) // Asegúrate de que tu ItemDestinoBinding tenga un ImageView
         }
 
@@ -80,4 +81,6 @@ class AlmohadasAdapter(
     fun getAlmohadaAt(position: Int): Almohadas {
         return lstAlmohadas[position]
     }
+
+
 }
