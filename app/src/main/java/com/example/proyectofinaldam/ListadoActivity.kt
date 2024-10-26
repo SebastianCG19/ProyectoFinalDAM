@@ -96,7 +96,13 @@ class ListadoActivity : AppCompatActivity() {
     }
 
     private fun editarAlmohada(almohada: Almohadas) {
-
+        val intent = Intent(this, UserDestino::class.java).apply {
+            putExtra("ALMOHADA_ID", almohada.id)
+            putExtra("NOMBRE_PRODUCTO", almohada.nomProducto)
+            putExtra("TAMANIO", almohada.tamanio)
+            putExtra("STOCK", almohada.stock)
+            putExtra("IMAGE_URL", almohada.imageUrl)
+        }
+        startActivity(intent)
     }
-
 }

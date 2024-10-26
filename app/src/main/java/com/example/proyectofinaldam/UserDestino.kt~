@@ -83,7 +83,7 @@ class UserDestino : AppCompatActivity() {
 
             // Almacenar los datos en la variable almohadaData para poder actualizarlos luego
             almohadaData = Almohadas(
-                id = 8, // Asegúrate de incluir el ID aquí
+                id = almohadaId, // Asegúrate de incluir el ID aquí
                 nomProducto = nombreProducto,
                 tamanio = tamanio,
                 stock = stock,
