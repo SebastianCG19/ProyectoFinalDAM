@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "almohadas_table")
 data class Almohadas (
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var nomProducto: String,
     var stock: String,
     var tamanio: String,
@@ -16,4 +16,5 @@ data class Almohadas (
     var precio: Double,
     var tipo: String
     */
+
 )

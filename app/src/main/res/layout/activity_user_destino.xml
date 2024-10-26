@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Romantic"
     tools:context=".UserDestino">
 
     <!-- Botón Logout -->
@@ -27,6 +28,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnLogout">
+
+        <EditText
+        android:id="@+id/etID"
+        android:background="@drawable/borde_morado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="ID"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="#8292f7" />
 
         <!-- Nombre -->
         <EditText
@@ -88,7 +100,6 @@
             android:textColor="#8292f7" />
 
         <!-- Subir imagen -->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

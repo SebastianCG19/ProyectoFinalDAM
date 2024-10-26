@@ -29,9 +29,10 @@ class AlmohadasAdapter(
         val almohadas = lstAlmohadas[position]
 
         // Vincula los datos de la almohada a las vistas del ViewHolder
+        holder.binding.txtId.text = almohadas.id.toString()
         holder.binding.txtNombre.text = almohadas.nomProducto
         holder.binding.txtTamaO.text = almohadas.tamanio
-        holder.binding.txtStock.text = almohadas.stock.toString()
+        holder.binding.txtStock.text = almohadas.stock
 
         // Cargar la imagen usando Picasso
         if (almohadas.imageUrl.isNotEmpty()) {
@@ -50,12 +51,15 @@ class AlmohadasAdapter(
         holder.binding.btnEditar.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, UserDestino::class.java).apply {
+
+                putExtra("ID", almohadas.id)
                 putExtra("NOMBRE_PRODUCTO", almohadas.nomProducto)
                 putExtra("TAMANIO", almohadas.tamanio)
                 putExtra("STOCK", almohadas.stock)
                 putExtra("IMAGE_URL", almohadas.imageUrl)
             }
             context.startActivity(intent)
+
         }
     }
 
@@ -63,9 +67,10 @@ class AlmohadasAdapter(
 
     // Función para actualizar la lista de almohadas
     fun updateAlmohadas(newList: List<Almohadas>) {
-        lstAlmohadas = newList
-        notifyDataSetChanged() // Notifica que la lista ha cambiado
+        lstAlmohadas = newList.toMutableList() // Convert to mutable list
+        notifyDataSetChanged()
     }
+
 
     // Método para filtrar almohadas por nombre
     fun filterAlmohadas(query: String) {
