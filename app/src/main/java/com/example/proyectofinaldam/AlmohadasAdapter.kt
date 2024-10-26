@@ -82,10 +82,6 @@ class AlmohadasAdapter(
         updateAlmohadas(filteredList) // Actualiza la lista con los resultados filtrados
     }
 
-    // Método para obtener una almohada en una posición específica
-    fun getAlmohadaAt(position: Int): Almohadas {
-        return lstAlmohadas[position]
-    }
 
 
 }

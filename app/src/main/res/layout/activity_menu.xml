@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@drawable/loginbkg"
     android:id="@+id/idMenu"> <!-- Cambiado a idMenu -->
 
     <TextView

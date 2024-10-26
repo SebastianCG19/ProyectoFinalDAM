@@ -27,18 +27,6 @@ class ListadoActivity : AppCompatActivity() {
     private lateinit var etBuscar: EditText
     private lateinit var btnBuscar: Button
 
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_listado)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -123,10 +111,23 @@ class ListadoActivity : AppCompatActivity() {
     }
 
     private fun editarAlmohada(almohada: Almohadas) {
+        val intent = Intent(this, UserDestino::class.java).apply {
+            putExtra("ID", almohada.id)
+            putExtra("NOMBRE_PRODUCTO", almohada.nomProducto)
+            putExtra("TAMANIO", almohada.tamanio)
+            putExtra("STOCK", almohada.stock)
+            putExtra("IMAGE_URL", almohada.imageUrl)
+        }
+        startActivityForResult(intent, 200)
+    }
+
+
+    /*
+    private fun editarAlmohada(almohada: Almohadas) {
             val intent = Intent(this, UserDestino::class.java)
         intent.putExtra("ID", almohada.id)
         startActivityForResult(intent, 200)  // Cambiar a startActivityForResult
-    }
+    }*/
 
 
     private fun loadAlmohadas() {
@@ -140,15 +141,3 @@ class ListadoActivity : AppCompatActivity() {
 
 
 }
-/*
-        val intent = Intent(this, UserDestino::class.java).apply {
-            putExtra("ALMOHADA_ID", almohada.id)
-            putExtra("NOMBRE_PRODUCTO", almohada.nomProducto)
-            putExtra("TAMANIO", almohada.tamanio)
-            putExtra("STOCK", almohada.stock)
-            putExtra("IMAGE_URL", almohada.imageUrl)
-        }
-        startActivity(intent)
-    }
-}
-*/

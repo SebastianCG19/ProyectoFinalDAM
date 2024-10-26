@@ -46,6 +46,7 @@ class UserDestino : AppCompatActivity() {
             insets
         }
 
+
         // Configurar la base de datos y el adaptador
         initDatabaseAndAdapter()
 
@@ -74,6 +75,38 @@ class UserDestino : AppCompatActivity() {
     }
 
     private fun loadDataForEditing() {
+
+
+        // Obtener datos del Intent
+        val id = intent.getLongExtra("ID", -1) // Cambiado de getIntExtra a getLongExtra
+        val nombreProducto = intent.getStringExtra("NOMBRE_PRODUCTO") ?: ""
+        val tamanio = intent.getStringExtra("TAMANIO") ?: ""
+        val stock = intent.getStringExtra("STOCK") ?: ""
+        val imageUrl = intent.getStringExtra("IMAGE_URL") ?: ""
+
+
+
+        // Cargar datos en campos de entrada
+        if (id != -1L) { // Asegúrate de usar -1L para la comparación
+            binding.etID.setText(id.toString())
+            binding.etNombre.setText(nombreProducto)
+            binding.etStock.setText(stock)
+            // Seleccionar el tamaño correcto basado en los datos
+            when (intent.getStringExtra("TAMANIO")) {
+                "Grande" -> binding.rbGrande.isChecked = true
+                "Mediano" -> binding.rbMediano.isChecked = true
+                "Pequeño" -> binding.rbPequenio.isChecked = true
+            }
+
+            // Cargar la imagen con Picasso
+            intent.getStringExtra("IMAGE_URL")?.let {
+                if (it.isNotEmpty()) Picasso.get().load(it).into(binding.uploadImage)
+            }
+            almohadaData = Almohadas(id = id, nomProducto = nombreProducto, tamanio = tamanio, stock = stock, imageUrl = imageUrl)
+        }
+
+        /*
+        binding.etID.setText(intent.getStringExtra("ID")) // Cargar el ID en el EditText
         binding.etNombre.setText(intent.getStringExtra("NOMBRE_PRODUCTO"))
         binding.etStock.setText(intent.getStringExtra("STOCK"))
 
@@ -91,12 +124,12 @@ class UserDestino : AppCompatActivity() {
 
         // Almacenar datos actuales para actualizar después
         almohadaData = Almohadas(
-
+            id = binding.etID.text.toString().toLongOrNull() ?: 0L, // Conversión segura a Long
             nomProducto = binding.etNombre.text.toString(),
             tamanio = binding.rgTamanio.checkedRadioButtonId.toString(),
             stock = binding.etStock.text.toString(),
             imageUrl = intent.getStringExtra("IMAGE_URL") ?: ""
-        )
+        )*/
     }
 
     private fun setupEventHandlers() {
@@ -113,8 +146,7 @@ class UserDestino : AppCompatActivity() {
     }
 
     private fun handleAddOrUpdate() {
-
-        val id_almohada = binding.etID.text.toString()
+        val idAlmohada = binding.etID.text.toString().toLongOrNull() ?: 0L // Convertir a Long o nulo
         val nombreProducto = binding.etNombre.text.toString()
         val stock = binding.etStock.text.toString()
         val selectedTamanio = when (binding.rgTamanio.checkedRadioButtonId) {
@@ -134,7 +166,7 @@ class UserDestino : AppCompatActivity() {
 
         if (almohadaData != null) { // Modo edición
             almohadaData?.apply {
-                id = id_almohada.toLong()
+                id = idAlmohada // Usa el ID ingresado
                 nomProducto = nombreProducto
                 tamanio = selectedTamanio
                 this.stock = stock
@@ -152,7 +184,9 @@ class UserDestino : AppCompatActivity() {
         clearInputFields()
     }
 
+
     private fun clearInputFields() {
+        binding.etID.text.clear()
         binding.etNombre.text.clear()
         binding.rgTamanio.clearCheck()
         binding.etStock.text.clear()
