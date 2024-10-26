@@ -28,4 +28,6 @@ interface AlmohadasDAO {
 
     @Query("SELECT * FROM almohadas_table")
     suspend fun getAll(): List<Almohadas>
+    @Query("SELECT * FROM almohadas_table WHERE id = :id LIMIT 1")
+    suspend fun getAlmohadaById(id: String): Almohadas?
 }

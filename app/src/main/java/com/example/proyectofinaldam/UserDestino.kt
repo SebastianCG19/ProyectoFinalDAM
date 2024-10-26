@@ -74,7 +74,6 @@ class UserDestino : AppCompatActivity() {
     }
 
     private fun loadDataForEditing() {
-        binding.etID.setText(intent.getStringExtra("ID")).toString()
         binding.etNombre.setText(intent.getStringExtra("NOMBRE_PRODUCTO"))
         binding.etStock.setText(intent.getStringExtra("STOCK"))
 
@@ -92,7 +91,7 @@ class UserDestino : AppCompatActivity() {
 
         // Almacenar datos actuales para actualizar después
         almohadaData = Almohadas(
-            // id = binding.etID.text.toLong(),
+
             nomProducto = binding.etNombre.text.toString(),
             tamanio = binding.rgTamanio.checkedRadioButtonId.toString(),
             stock = binding.etStock.text.toString(),
